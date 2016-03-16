@@ -37,8 +37,8 @@ mod.controller("PublicationsCtrl", ["$scope", "$http", function($scope, $http) {
 			.success(function(data) {
 				$scope.publications = data;
 			})
-			.error(function(data) {
-				console.log("Error: ", data);
+			.error(function() {
+				// console.log("Error: ", data);
 			});
 	}
 }]);

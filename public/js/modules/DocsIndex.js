@@ -1,4 +1,4 @@
-mod = angular.module("DocsIndex", []);
+var mod = angular.module("DocsIndex", []);
 
 mod.controller("DocsIndexCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.docs = [];  // list of wiki info data
@@ -8,7 +8,7 @@ mod.controller("DocsIndexCtrl", ["$scope", "$http", function($scope, $http) {
 		.success(function(data) {
 			$scope.docs = data;
 		})
-		.error(function(data) {
-			console.log(data);
+		.error(function() {
+			// console.log(data);
 		});
 }]);

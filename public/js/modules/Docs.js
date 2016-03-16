@@ -18,9 +18,9 @@ mod.controller("DocsCtrl",
 	if ($(window).width() > 768) {
 		// not small
 		$('#sidebar').affix({
-		      offset: {
-		        top: 50
-		      }
+      offset: {
+        top: 50
+      }
 		});
 	}
 
@@ -46,8 +46,8 @@ mod.controller("DocsCtrl",
 				// Load content of file and process
 				$scope.loadContent(mdfile);
 			})
-			.error(function(data) {
-				console.log(data);
+			.error(function() {
+				// console.error(data);
 			});
 	}
 
@@ -156,8 +156,8 @@ mod.controller("DocsCtrl",
 					fixDownloadLinks();
 				}, 0);
 			})
-			.error(function(data) {
-				console.log("Error: ", data);
+			.error(function() {
+				// console.log("Error: ", data);
 			});
 	};
 
@@ -182,11 +182,11 @@ mod.controller("DocsCtrl",
 	};
 
 	// Set the edit button reference
-	setEditButtonHref = function(href) {
+	var setEditButtonHref = function(href) {
 		$("#edit-button").attr("href", href);
 	};
 
-	updateEditButton = function(mdfile) {
+	var updateEditButton = function(mdfile) {
 		if (mdfile === "index.md") {
 			setEditButtonHref("https://github.com/skoplev/lincs-project-org/edit/master/public/" + $scope.base_path + "/index.md");
 		} else {
@@ -194,7 +194,7 @@ mod.controller("DocsCtrl",
 		}
 	}
 
-	makeShareButtons = function(mdfile) {
+	var makeShareButtons = function(mdfile) {
 		// select all elements with ids that are headers
 		$("#documentation :header")
 			.on("mouseenter", function(event) {
@@ -207,7 +207,7 @@ mod.controller("DocsCtrl",
 					// ensure cleanup of hanging tooltips
 					$("#documentation div.popover.ng-scope").remove();
 
-					// get id 
+					// get id
 					var id = $(this).attr("id");
 
 					// reference url of section
@@ -221,7 +221,7 @@ mod.controller("DocsCtrl",
 			});
 	}
 
-	fixDownloadLinks = function() {
+	var fixDownloadLinks = function() {
 		$("#documentation").find("a").map(function() {
 			// context of each <a> on loaded documentation view
 			// Detect if <a> links to a file for download and add target="_self" if so
@@ -234,7 +234,7 @@ mod.controller("DocsCtrl",
 				}
 			}
 			catch(err) {
-				console.warn(err);
+				// console.warn(err);
 			}
 		});
 	}
@@ -244,13 +244,13 @@ mod.controller("DocsCtrl",
 	function navHtml(id, name, lvl) {
 		// return "<li class=\"lvl" + lvl + "\"><a href='#' ng-click=\"gotoAnchor('" + id + "')\">" + name + "</a></li>";
 		return "<li id=\"nav-" + id + "\" class=\"lvl" + lvl + "\"><a href='#' ng-click=\"gotoAnchor('" + id + "')\">" + name + "</a></li>";
-	};
+	}
 
 	// Guess whether input string refers to a file for download.
 	// Warning: makes mistakes on web extensions...
 	function isFileName(name) {
-		illegal_first_chars = "!#$%&'@^`~+,.;=";
-		web_extensions = [
+		var illegal_first_chars = "!#$%&'@^`~+,.;=";
+		var web_extensions = [
 			"html", "htm", "do", "jsp", "cgi", "fcgi", "php",  // file names
 			"com", "net", "org", "edu", "uk"  // catch most common extensions
 		];
@@ -277,7 +277,7 @@ mod.controller("DocsCtrl",
 	// Deletes previous subnavigation elements.
 	// toc is a table of content object.
 	// id is the id for the navigation target under which to create the subnav (also the filename of the associated .md file.)
-	openSubnavigation = function(id, toc) {
+	var openSubnavigation = function(id, toc) {
 		// close previous subnavigation
 		$("#subnav").remove();
 
@@ -288,7 +288,7 @@ mod.controller("DocsCtrl",
 
 		// Check if the navigation element was found
 		if (parent.length === 0) {
-			console.warn("Navigation target not found: ", id);
+			// console.warn("Navigation target not found: ", id);
 		}
 
 		var current = parent;
@@ -324,7 +324,7 @@ mod.controller("DocsCtrl",
 				var new_nav = $("<ul>").attr("class", "nav");
 
 				// add new navigation to pivot <li>
-				current.append(new_nav);  
+				current.append(new_nav);
 				// add the navigation element to the new nav
 				new_nav.append(new_ng_li);
 				// add the new nav to the navigation stack
@@ -333,11 +333,11 @@ mod.controller("DocsCtrl",
 				current = new_ng_li;  // new pivot <li>
 
 				// update tree level
-				cur_lvl = elem.lvl; 
+				cur_lvl = elem.lvl;
 			} else if (elem.lvl < cur_lvl) {
 				// move up tree, backtrace
 				// remove n layers of nav stack ensuring that the appropriate ancestor is on top of nav stack.
-				for (var i = 0; i < cur_lvl - elem.lvl; i++) {
+				for (var j = 0; j < cur_lvl - elem.lvl; j++) {
 					nav.pop();
 				}
 
@@ -349,20 +349,19 @@ mod.controller("DocsCtrl",
 				peek(nav).append(new_ng_li);
 				current = new_ng_li;
 			}
-		};
+		}
 	};
 
 	// Changes the focus of the navigation and subnavigation bar. The focus referes to the id
 	// which is extrapolated to "nav-<new_focus>" in the navbar.
-	setFocus = function(new_focus) {
+	var setFocus = function(new_focus) {
 
 		// test if the suggested focus can be found in sidebar
 		if ($("#sidebar #nav-" + new_focus).length === 0) {
-			console.warn("setFocus() called with invalid id: ", new_focus);
 			return;
 		}
 
-		// Set the focus variable 
+		// Set the focus variable
 		$scope.focus.id = new_focus;
 
 		// Remove previously selected
@@ -375,21 +374,21 @@ mod.controller("DocsCtrl",
 		$("#sidebar #nav-" + new_focus).parents("li").addClass("selected");
 	};
 
-	// Updates the scroll callback function looking for the closest 
-	updateScrollSpy = function() {
+	// Updates the scroll callback function looking for the closest
+	var updateScrollSpy = function() {
 		// var offset = 100;  // in pixels, the point from the top where the scroll point is considered
 		var offset = 20;
 
-		var header_height = $("#header").outerHeight();
+		// var header_height = $("#header").outerHeight();
 
-		// var scroll_items 
+		// var scroll_items
 
 		// get all JQuery objects in the main documentation text area which has an id.
 		// The elements retrieved are the ids of headers with matching ids in the navigation
 		// sidebar.
 		var all_ids = $("#documentation *[id]");
 
-		// get 
+		// get
 		var all_id_vals = all_ids.map(function() {
 			return this.id;
 		});
@@ -434,7 +433,7 @@ mod.controller("DocsCtrl",
 			}
 		}
 
-		// Add the new scroll handler callback 
+		// Add the new scroll handler callback
 		$(window).on("scroll", $scope.scrollHandler);
 	};
 

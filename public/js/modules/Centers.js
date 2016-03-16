@@ -9,8 +9,8 @@ mod.controller("CentersCtrl", ["$scope", "$http", function($scope, $http) {
 		.success(function(data) {
 			$scope.centers = data;
 		})
-		.error(function(error) {
-			console.log("Error: ", data);
+		.error(function() {
+			// console.log("Error: ", data);
 		});
 }]);
 
@@ -20,7 +20,7 @@ mod.directive("center", function() {
 		scope: {
 			data: "="
 		},
-		controller: ["$scope", function($scope) {
+		controller: ["$scope", function() {
 			// console.log("center controller");
 		}],
 		templateUrl: "templates/CenterTemp.html"

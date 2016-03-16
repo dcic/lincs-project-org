@@ -1,7 +1,7 @@
 "use strict";
 
 // Lincs Angular application
-var app = angular.module("LincsApp", [
+angular.module("LincsApp", [
 	"Main",  // main Angular module
 	"Landing",  // home/front/landing page module
 	"Header",  // Header and navigation bar module

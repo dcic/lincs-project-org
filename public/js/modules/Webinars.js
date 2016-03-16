@@ -1,6 +1,6 @@
 var mod = angular.module("Webinars", []);
 
-mod.controller("WebinarsCtrl", ["$scope", "$http", "$sce", "$timeout", function($scope, $http, $sce, $timeout) {
+mod.controller("WebinarsCtrl", ["$scope", "$http", "$sce", function($scope, $http, $sce) {
 	$scope.webinars = [];
 
 	$scope.id_counter = 0;
@@ -13,15 +13,15 @@ mod.controller("WebinarsCtrl", ["$scope", "$http", "$sce", "$timeout", function(
 					data.past[i].abstract = $sce.trustAsHtml(data.past[i].abstract)
 				}
 				catch(err) {
-					console.warn(err);
+					// console.warn(err);
 				}
 			}
 
 			$scope.webinars = data;  // store data in controller
 
 		})
-		.error(function(data) {
-			console.error(data);
+		.error(function() {
+			// console.error(data);
 		});
 }])
 

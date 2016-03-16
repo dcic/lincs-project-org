@@ -1,32 +1,26 @@
 // Login, logout etc
 var mod = angular.module("Auth", ["ngFlash"]);
 
-mod.controller("LoginCtrl",
-	["$scope", "authentic", "Flash",
-	function($scope, authentic, flash) {
-	console.log("auth controller");
+mod.controller("LoginCtrl", ["$scope", "authentic", "Flash", function($scope, authentic, flash) {
 	// console.log(authentic);
 
 	$scope.login = function() {
 		$scope.error = false;
 		$scope.disables = true;
 
-		// Try to login using the authentication service, which rejects the 
+		// Try to login using the authentication service, which rejects the
 		// promise if wrong user information are tried.
 		authentic.login($scope.loginForm.email, $scope.loginForm.password)
 			// handle successful promise
-			.then(function(result) {
-				console.log("logged in: ", result);
-			})
+			.then(function() {})
 			// handle error
 			.catch(function(result) {
-				console.log("Login error: ", result);
 				$scope.alert(result.message);
 			});
 	}
 
 	$scope.alert = function(message) {
-		var id = flash.create("danger", message, 8000);
+		flash.create("danger", message, 8000);
 	};
 }]);
 
@@ -34,20 +28,13 @@ mod.controller("LoginCtrl",
 // The use of Angular provider enables the services to be used in .config
 // for front-end routing behaviour that depends on the authentication status.
 mod.provider("authentic", function () {
-	// some examples of user for future extension of this provider.
-	var message = "hi";
 	// This function can be called in Angular configuration blocks (.config)
 	this.resolver = function() {
-		console.log("resolver called");
 		return true;
 	}
 
 	// The service. Get is used by Angular to construct the service instance.
-	this.$get = [
-		// dependencies of the service "provided"
-		"$q", "$http", "$location",
-		function($q, $http, $location)
-	{
+	this.$get = ["$q", "$http", "$location", function($q, $http, $location) {
 		// service instance containing functions
 		return {
 			// isLoggedIn() checks whether the user is authorized by submitting a GET request
@@ -63,7 +50,6 @@ mod.provider("authentic", function () {
 							deferred.resolve();
 						} else {
 							// unauthorized
-							console.log("must log in");
 							deferred.reject();
 							$location.url("login");  // redirect to login page
 						}
@@ -85,14 +71,11 @@ mod.provider("authentic", function () {
 							deferred.resolve(data);  // resolve promise and send data from POST request
 							$location.url("/");  // go to landing page
 						} else {
-							// console.log("not successfully logged in");
-							console.log(data);
 							deferred.reject(data);
 						}
 					})
 					// error handling
 					.error(function(err) {
-						console.log(err);
 						deferred.reject(err);
 					});
 

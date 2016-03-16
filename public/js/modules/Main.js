@@ -6,10 +6,10 @@ mod.controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
 
 	// Get data
 	$http.get("api/todos")
-		.success(function(data) {
+		.success(function() {
 			// console.log(data);
 		})
-		.error(function(data) {
-			console.log("Error: ", data);
+		.error(function() {
+			// console.log("Error: ", data);
 		});
 }]);

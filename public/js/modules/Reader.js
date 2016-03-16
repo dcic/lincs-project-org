@@ -2,7 +2,7 @@
 
 var mod = angular.module("Reader", []);
 
-mod.controller("ReaderCtrl", 
+mod.controller("ReaderCtrl",
 	["$scope", "$routeParams", "$http", "$sce",
 	function($scope, $routeParams, $http, $sce) {
 
@@ -16,7 +16,7 @@ mod.controller("ReaderCtrl",
 			$scope.text = $sce.trustAsHtml(data.html);
 			$scope.meta = data.meta;
 		})
-		.error(function(data) {
-			console.log("Error: ", data);
+		.error(function() {
+			// console.log("Error: ", data);
 		});
 }])
